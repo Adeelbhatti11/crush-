@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reply Me</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #fbeaea;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+    .container {
+      margin-top: 20px;
+      padding: 10px;
+    }
+    video {
+      width: 100%;
+      max-width: 600px; /* ✅ responsive video */
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .button-container {
+      margin-top: 20px;
+      position: relative;
+      height: 200px;
+    }
+    .btn {
+      padding: 10px 25px;
+      font-size: 18px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      position: absolute;
+      transition: left 0.2s, top 0.2s;
+    }
+    .yes-btn {
+      background: #ff4d6d;
+      color: #fff;
+      left: 40%;
+      top: 80px;
+    }
+    .no-btn {
+      background: #ccc;
+      color: #000;
+      left: 55%;
+      top: 80px;
+    }
+    .reload-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #ff3366;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      margin-top: 20px;
+      cursor: pointer;
+      display: none; /* hidden until result shows */
+    }
+    .emoji {
+      position: absolute;
+      font-size: 28px;
+      pointer-events: none;
+      animation: fadeOut 1s forwards;
+    }
+    @keyframes fadeOut {
+      0% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+    .result-container {
+      display: none;
+      margin-top: 20px;
+      position: relative;
+    }
+    .result-container h2 {
+      color: #ff3366;
+      font-size: 28px;
+    }
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 24px;
+      color: red;
+      animation: floatUp 3s linear forwards;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+    }
+
+    /* ✅ Responsive adjustments */
+    @media (max-width: 768px) {
+      .btn {
+        font-size: 16px;
+        padding: 8px 20px;
+      }
+      .button-container {
+        height: 150px;
+      }
+    }
+    @media (max-width: 480px) {
+      .btn {
+        font-size: 14px;
+        padding: 6px 15px;
+      }
+      .yes-btn { left: 30%; }
+      .no-btn { left: 60%; }
+      .result-container h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="question-container container">
+    <video class="local-gift" src="vecteezy_smiling-face-blushing-emoji_69017270.mp4" autoplay loop muted></video>
+    <h2 class="question">Do you love me?</h2>
+    <div class="button-container">
+      <button class="yes-btn btn js-yes-btn">Yes</button>
+      <button class="no-btn btn js-no-btn">No</button>
+    </div>
+  </div>
+
+  <div class="result-container container">
+    <video class="gift-result" src="vecteezy_love-emoji-green-screen-video-4k-hd-resolution_21576894.mp4" autoplay loop muted></video>
+    <h2>I knew it 🥰!</h2>
+    <button class="reload-btn js-reload-btn">🔄 Reload</button>
+  </div>
+
+  <script>
+    const yesBtn = document.querySelector('.js-yes-btn');
+    const noBtn = document.querySelector('.js-no-btn');
+    const reloadBtn = document.querySelector('.js-reload-btn');
+    const questionContainer = document.querySelector('.question-container');
+    const resultContainer = document.querySelector('.result-container');
+    const buttonContainer = document.querySelector('.button-container');
+
+    const emojis = ["😂","🤣","😜","🙈","🤭","😝"];
+
+    yesBtn.addEventListener('click', () => {
+      questionContainer.style.display = 'none';
+      resultContainer.style.display = 'block';
+      reloadBtn.style.display = 'inline-block'; // show reload button
+
+      // Start hearts floating
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerText = "💖";
+        heart.style.left = Math.random() * 90 + "%";
+        heart.style.bottom = "0px";
+        resultContainer.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 3000);
+      }, 500);
+    });
+
+    // Move the No button & leave emoji
+    noBtn.addEventListener('mouseover', () => {
+      const oldLeft = noBtn.style.left;
+      const oldTop = noBtn.style.top;
+
+      const emoji = document.createElement("div");
+      emoji.classList.add("emoji");
+      emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+      emoji.style.left = oldLeft;
+      emoji.style.top = oldTop;
+      buttonContainer.appendChild(emoji);
+
+      setTimeout(() => {
+        emoji.remove();
+      }, 1000);
+
+      const x = Math.floor(Math.random() * 70) + 10; 
+      const y = Math.floor(Math.random() * 120) + 20;
+      noBtn.style.left = x + "%";
+      noBtn.style.top = y + "px";
+    });
+
+    // Reload button action
+    reloadBtn.addEventListener('click', () => {
+      location.reload();
+    });
+  </script>
+</body>
+</html>
