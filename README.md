@@ -1,1 +1,1 @@
-ok
+java function practice ok
