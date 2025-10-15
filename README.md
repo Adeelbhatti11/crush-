@@ -1,1 +1,1 @@
-java function practice ok
+java mouse click function practice ok
